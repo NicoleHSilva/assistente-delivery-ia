@@ -100,6 +100,7 @@ python -m src.tools.order_tools    # exercita as ferramentas, incluindo casos de
 - **A busca por palavras não entende sinônimos.** Em testes manuais com perguntas reais, o trecho correto sempre apareceu entre os 3 primeiros, mas nem sempre em 1º (por exemplo, "pedir" não casa com "solicitar" no texto da política). A avaliação automática vai medir isso e comparar melhorias.
 - **O plano gratuito da API tem limites** e pode responder com erros temporários (429 ou 503). O tratamento com novas tentativas automáticas está nos próximos passos.
 - **Os dados e as políticas são inventados.** Nenhum valor ou regra representa uma empresa real.
+- **Dados "em andamento" envelhecem.** O banco fictício é gerado relativo ao horário em que o `seed` roda, então pedidos "a caminho" ficam cada vez mais atrasados com o tempo. A avaliação automática vai usar um relógio fixo.
 
 ## Próximos passos
 
