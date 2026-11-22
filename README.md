@@ -113,6 +113,10 @@ python -m src.tools.order_tools    # exercita as ferramentas, incluindo casos de
 
 Projeto educacional, sem relação com nenhuma empresa real.
 
+## Licença
+
+Distribuído sob a licença MIT. Veja o arquivo [LICENSE](LICENSE).
+
 ## Autora
 
 Nicole Henrique Silva, estudante de Análise e Desenvolvimento de Sistemas.
