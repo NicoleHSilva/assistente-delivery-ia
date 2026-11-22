@@ -17,7 +17,7 @@ Projeto de portfólio: um assistente de atendimento ao cliente para um serviço 
 - [x] Banco SQLite com dados fictícios (clientes, restaurantes, pedidos, chamados)
 - [x] Busca nas políticas com BM25
 - [x] Ferramentas do agente (consultar pedido, listar pedidos, abrir chamado)
-- [ ] Agente (loop de tool calling com RAG)
+- [x] Agente (loop de tool calling com RAG)
 - [ ] Guardrails (escopo, recusas, "não sei")
 - [ ] API (FastAPI) e interface de chat
 - [ ] Avaliação automática (dataset e relatório)
