@@ -1,5 +1,6 @@
 PRAGMA foreign_keys = ON;
 
+DROP TABLE IF EXISTS chamados;
 DROP TABLE IF EXISTS pedidos;
 DROP TABLE IF EXISTS restaurantes;
 DROP TABLE IF EXISTS clientes;
@@ -26,4 +27,11 @@ CREATE TABLE pedidos (
     criado_em      TEXT NOT NULL,
     previsto_para  TEXT NOT NULL,
     entregue_em    TEXT
+);
+
+CREATE TABLE chamados (
+    id         INTEGER PRIMARY KEY,
+    pedido_id  INTEGER NOT NULL REFERENCES pedidos(id),
+    motivo     TEXT NOT NULL,
+    criado_em  TEXT NOT NULL
 );
