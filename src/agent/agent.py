@@ -2,13 +2,16 @@ import json
 
 from openai import APIError, OpenAI
 
+from src.agent.guardrails import resposta_degenerada
 from src.agent.prompts import montar_system_prompt
 from src.config import LLM_API_KEY, LLM_BASE_URL, LLM_MODEL
 from src.rag.retriever import Retriever
+from src.rag.sinonimos import expandir_consulta
 from src.tools.order_tools import FERRAMENTAS, executar_ferramenta
 
 MAX_PASSOS = 5  # no máximo 5 idas e vindas com o modelo por mensagem
 MAX_HISTORICO = 12  # guarda só as últimas 12 mensagens da conversa
+MAX_TOKENS = 1500  # limite de tamanho de cada resposta do modelo
 
 
 class Agente:
@@ -52,8 +55,8 @@ class Agente:
             self.historico.pop(0)
 
     def responder(self, mensagem: str) -> str:
-        # 1. Busca nas políticas
-        trechos = self.retriever.buscar(mensagem, k=3)
+        # 1. Busca nas políticas (com as palavras das políticas acrescentadas)
+        trechos = self.retriever.buscar(expandir_consulta(mensagem), k=3)
         for t in trechos:
             self._log(f"busca: [{t.pontuacao}] {t.titulo} > {t.secao}")
         if not trechos:
@@ -75,11 +78,16 @@ class Agente:
                 tools=FERRAMENTAS,
                 tool_choice="auto",
                 temperature=0.2,
+                max_tokens=MAX_TOKENS,
             )
             msg = resposta.choices[0].message
 
-            if not msg.tool_calls:  # respondeu em texto: terminou
-                resposta_final = (msg.content or "").strip()
+            if not msg.tool_calls:  # respondeu em texto
+                texto = (msg.content or "").strip()
+                if resposta_degenerada(texto):
+                    self._log("resposta inválida (vazia ou só reticências): tentando de novo")
+                    continue  # gasta um passo e pede de novo
+                resposta_final = texto
                 break
 
             # Registra o pedido do modelo e devolve o resultado de cada ferramenta
