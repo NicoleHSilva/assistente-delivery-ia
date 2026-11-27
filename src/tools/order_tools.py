@@ -100,7 +100,14 @@ def abrir_chamado(cliente_id: int, pedido_id, motivo: str = "") -> dict:
         return {"erro": f"O motivo pode ter no máximo {TAMANHO_MAXIMO_MOTIVO} caracteres."}
 
     chamado_id = repository.criar_chamado(pedido["id"], motivo)
-    return {"chamado_id": chamado_id, "mensagem": "Chamado aberto com sucesso."}
+    return {
+        "chamado_id": chamado_id,
+        "mensagem": "Chamado registrado.",
+        "observacao": (
+            "Informe só o número do chamado. Não prometa prazo, contato "
+            "ou resultado: isso não está definido nas políticas."
+        ),
+    }
 
 
 # ---------------------------------------------------------------

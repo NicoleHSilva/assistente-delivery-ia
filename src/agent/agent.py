@@ -56,7 +56,11 @@ class Agente:
 
     def responder(self, mensagem: str) -> str:
         # 1. Busca nas políticas (com as palavras das políticas acrescentadas)
-        trechos = self.retriever.buscar(expandir_consulta(mensagem), k=3)
+        # Inclui as 2 últimas mensagens anteriores do cliente na busca:
+        # respostas curtas como "37" ou "sim" não têm contexto sozinhas
+        anteriores = [m["content"] for m in self.historico if m["role"] == "user"][-2:]
+        consulta = " ".join([*anteriores, mensagem])
+        trechos = self.retriever.buscar(expandir_consulta(consulta), k=3)
         for t in trechos:
             self._log(f"busca: [{t.pontuacao}] {t.titulo} > {t.secao}")
         if not trechos:

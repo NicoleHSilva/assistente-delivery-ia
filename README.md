@@ -18,8 +18,7 @@ Projeto de portfólio: um assistente de atendimento ao cliente para um serviço 
 - [x] Busca nas políticas com BM25
 - [x] Ferramentas do agente (consultar pedido, listar pedidos, abrir chamado)
 - [x] Agente (loop de tool calling com RAG)
-- [ ] Guardrails (escopo, recusas, "não sei")
-- [ ] API (FastAPI) e interface de chat
+- [x] Guardrails (escopo, recusas, "não sei")- [ ] API (FastAPI) e interface de chat
 - [ ] Avaliação automática (dataset e relatório)
 - [ ] Testes automatizados, Docker e CI
 
