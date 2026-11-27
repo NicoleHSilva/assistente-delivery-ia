@@ -109,7 +109,8 @@ class Retriever:
         return pontos
 
     def buscar(self, pergunta: str, k: int = 3) -> list[Trecho]:
-        consulta = normalizar(pergunta)
+        # Números (como o número do pedido) não ajudam a achar políticas
+        consulta = [t for t in normalizar(pergunta) if not t.isdigit()]
         resultados = []
         for i, trecho in enumerate(self.trechos):
             pontos = self._pontuar(consulta, i)

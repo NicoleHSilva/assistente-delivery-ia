@@ -35,6 +35,10 @@ def _calcular_atraso(pedido: dict, agora: datetime | None = None) -> int:
 
     return max(0, int((referencia - previsto).total_seconds() // 60))
 
+def _horas_desde(texto_data: str, agora: datetime | None = None) -> int:
+    """Horas inteiras desde o horário informado."""
+    agora = agora or datetime.now()
+    return max(0, int((agora - _como_data(texto_data)).total_seconds() // 3600))
 
 def _pedido_do_cliente(cliente_id: int, pedido_id) -> dict | None:
     """Devolve o pedido só se ele existir E for deste cliente."""
@@ -55,6 +59,7 @@ _ERRO_PEDIDO = {"erro": "Pedido não encontrado para este cliente."}
 # ---------------------------------------------------------------
 # As ferramentas (o cliente_id vem da sessão, nunca do modelo)
 # ---------------------------------------------------------------
+
 def consultar_pedido(cliente_id: int, pedido_id) -> dict:
     pedido = _pedido_do_cliente(cliente_id, pedido_id)
     if pedido is None:
@@ -68,6 +73,7 @@ def consultar_pedido(cliente_id: int, pedido_id) -> dict:
         "previsto_para": pedido["previsto_para"],
         "entregue_em": pedido["entregue_em"],
         "atraso_minutos": _calcular_atraso(pedido),
+        "horas_desde_o_pedido": _horas_desde(pedido["criado_em"]),
     }
 
 
